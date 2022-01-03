@@ -2,8 +2,8 @@
 
 # Ship your change!
 #
-# Commit the latest changes, get the latest master and merge it, run tests and linter
-# and, if all is OK, merge your changes to master and push to origin for deploy.
+# Commit the latest changes, get the latest main and merge it, run tests and linter
+# and, if all is OK, merge your changes to main and push to origin for deploy.
 
 . scripts/common.sh
 
@@ -15,10 +15,10 @@ commit
 
 set -e
 
-msg "Switching to master"
-git checkout master
+msg "Switching to main"
+git checkout main
 
-msg "Getting latest master"
+msg "Getting latest main"
 git pull
 
 msg "Switching to integration branch: $tmp_branch"
@@ -30,10 +30,10 @@ git merge $branch
 test_and_lint
 
 msg "Tests OK, deleting integration branch: $tmp_branch"
-git checkout master
+git checkout main
 git branch -D $tmp_branch
 
-msg "Merging your changes to master"
+msg "Merging your changes to main"
 git merge $branch
 
 # Commit can fail for no files to add, this is fine.
@@ -41,8 +41,8 @@ set +e
 commit
 set -e
 
-msg "Pushing master to git server"
-git push origin master
+msg "Pushing main to git server"
+git push origin main
 
 msg "Deleting feature branch"
 git branch -D $branch
