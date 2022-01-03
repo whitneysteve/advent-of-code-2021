@@ -42,7 +42,7 @@ If you want to commit and are done, ship it!
 
 `./ship`
 
-Merge the branch to main.
+This merges the branch to main.
 
 Credits
 -------

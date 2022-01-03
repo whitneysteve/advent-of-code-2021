@@ -10,7 +10,7 @@ function commit() {
 
 function lint() {
   msg "Running Linter"
-  rubocop -a
+  rubocop -A
 }
 
 function run() {
