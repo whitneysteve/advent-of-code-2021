@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Commit the current changes.
+
+set -e
+
+. scripts/common.sh
+
+ test_and_lint
+
+message=$*
+commit $message

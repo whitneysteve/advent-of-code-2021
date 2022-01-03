@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# Ship your change!
+#
+# Commit the latest changes, get the latest master and merge it, run tests and linter
+# and, if all is OK, merge your changes to master and push to origin for deploy.
+
+. scripts/common.sh
+
+sha=$(git rev-parse HEAD)
+branch=$(git rev-parse --abbrev-ref HEAD)
+tmp_branch="merge_test_$sha"
+
+msg "Committing changes"
+commit
+
+set -e
+
+msg "Switching to master"
+git checkout master
+
+msg "Getting latest master"
+git pull
+
+msg "Switching to integration branch: $tmp_branch"
+git checkout -b $tmp_branch
+
+msg "Merging changes from $branch"
+git merge $branch
+
+test_and_lint
+
+msg "Tests OK, deleting integration branch: $tmp_branch"
+git checkout master
+git branch -D $tmp_branch
+
+msg "Merging your changes to master"
+git merge $branch
+
+msg "Deploying"
+yarn run deploy
+
+# Commit can fail for no files to add, this is fine.
+set +e
+commit
+set -e
+
+msg "Pushing master to git server"
+git push origin master
+
+msg "Deleting feature branch"
+git branch -D $branch
+
+msg "Nice work!"

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Run the linter.
+
+set -e
+
+. scripts/common.sh
+
+lint

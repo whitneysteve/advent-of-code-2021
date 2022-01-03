@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Run the tests.
+
+set -e
+
+. scripts/common.sh
+
+test

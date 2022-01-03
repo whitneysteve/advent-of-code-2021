@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Create a new branch to implement a feature.
+
+set -e
+
+. scripts/common.sh
+
+msg "Checking out $1"
+git checkout -b $1

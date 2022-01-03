@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Run the development server. Reloads as appropriate.
+
+set -e
+
+. scripts/common.sh
+
+run $*
