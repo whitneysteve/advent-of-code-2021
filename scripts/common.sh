@@ -16,6 +16,7 @@ function lint() {
 function run() {
   msg "Running Locally..."
   ruby challenges/challenge_1.rb
+  ruby challenges/challenge_2.rb
 }
 
 function test() {
