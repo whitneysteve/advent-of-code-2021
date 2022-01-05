@@ -5,6 +5,7 @@ require_relative 'course_command'
 # Class to represent submarine.
 class Submarine
   def initialize
+    @aim = 0
     @depth = 0
     @horizontal = 0
   end
@@ -23,6 +24,7 @@ class Submarine
   def plot_course(course)
     @depth = 0
     @horizontal = 0
+    @aim = 0
 
     @final_destination = nil
     @course = course
@@ -43,15 +45,24 @@ class Submarine
       return
     end
 
+    execute_command(command)
+  end
+
+  def execute_command(command)
     if command.depth?
-      update_depth(command)
+      update_aim(command)
     elsif command.horizontal?
       update_horizontal(command)
+      update_depth(command)
     end
   end
 
+  def update_aim(command)
+    @aim += command.distance
+  end
+
   def update_depth(command)
-    new_depth = @depth + command.distance
+    new_depth = @depth + (@aim * command.distance)
 
     if new_depth.negative?
       puts "Command #{command} would move sub to invalid depth: #{new_depth}"

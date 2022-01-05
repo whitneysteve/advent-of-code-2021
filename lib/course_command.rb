@@ -20,12 +20,13 @@ class CourseCommand
     distance = distance.to_i
     return nil if distance < 1
 
-    CourseCommand.new(direction, sign_for_distance(direction, distance))
+    CourseCommand.new(command_str, direction, sign_for_distance(direction, distance))
   end
 
-  def initialize(direction, distance)
+  def initialize(original, direction, distance)
     @direction = direction
     @distance = distance
+    @original = original
   end
 
   def horizontal?
@@ -34,6 +35,10 @@ class CourseCommand
 
   def depth?
     @depth || @direction == 'up' || @direction == 'down'
+  end
+
+  def to_s
+    @original
   end
 
   def self.sign_for_distance(direction, distance)

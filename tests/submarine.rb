@@ -17,16 +17,22 @@ class SubmarineTest < Minitest::Test
   def test_calculate_final_destination
     sub = Submarine.new
     sub.plot_course(TEST_COURSE)
-    assert sub.final_destination == 150
+    assert sub.final_destination == 900
   end
 
   def test_resets_course
     sub = Submarine.new
     sub.plot_course(TEST_COURSE)
-    assert sub.final_destination == 150
+    assert sub.final_destination == 900
 
     sub.plot_course(['down 2', 'forward 2'])
-    assert sub.final_destination == 4
+    assert sub.final_destination == 8
+  end
+
+  def test_does_not_move_to_negative_depth
+    sub = Submarine.new
+    sub.plot_course(['up 1', 'forward 1'])
+    assert sub.final_destination.zero?
   end
 
   def test_should_handle_single_comand
@@ -38,15 +44,15 @@ class SubmarineTest < Minitest::Test
   def test_should_handle_invalid_comand
     sub = Submarine.new
     sub.plot_course(['down 2', 'around 3', 'forward 2'])
-    assert sub.final_destination == 4
+    assert sub.final_destination == 8
 
     sub.plot_course(['down 2', '', 'forward 2'])
-    assert sub.final_destination == 4
+    assert sub.final_destination == 8
   end
 
   def test_should_handle_nil_comand
     sub = Submarine.new
     sub.plot_course(['down 2', nil, 'forward 2'])
-    assert sub.final_destination == 4
+    assert sub.final_destination == 8
   end
 end
