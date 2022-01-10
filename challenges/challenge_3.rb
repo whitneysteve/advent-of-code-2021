@@ -8,4 +8,5 @@ if __FILE__ == $PROGRAM_NAME
   report_data = File.readlines('challenges/challenge_3_input')
   status_report = StatusReport.new(report_data)
   puts status_report.power_consumption
+  puts status_report.life_support
 end

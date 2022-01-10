@@ -6,8 +6,9 @@ class StatusReport
   #
   # @param [Array<String>] data array of Strings containing the binary values in String format.
   def initialize(data)
-    arr_data = data&.map { |row| pre_process_row(row) }
-    @rotated_data = arr_data&.compact&.transpose || []
+    raise 'InvalidStatusReport' if data.to_a.empty?
+
+    @data = data&.compact&.map { |row| pre_process_row(row) }
   end
 
   # Calculate the power consumption from the status report.
@@ -17,14 +18,29 @@ class StatusReport
     gamma * epsilon
   end
 
+  # Calculate the life support rating from the status report.
+  #
+  # @return the integer value representing life support rating.
+  def life_support
+    oxygen_generator_rating * co2_scrubber_rating
+  end
+
   private
 
   def gamma
-    gamma_epsilon[:gamma]
+    @gamma ||= gamma_epsilon[:gamma].to_i(2)
   end
 
   def epsilon
-    gamma_epsilon[:epsilon]
+    @epsilon ||= gamma_epsilon[:epsilon].to_i(2)
+  end
+
+  def oxygen_generator_rating
+    @oxygen_generator_rating ||= filter_by_commonality(@data, least_common_value: false).join.to_i(2)
+  end
+
+  def co2_scrubber_rating
+    @co2_scrubber_rating ||= filter_by_commonality(@data, least_common_value: true).join.to_i(2)
   end
 
   def gamma_epsilon
@@ -33,15 +49,48 @@ class StatusReport
     gamma_str = ''
     epsilon_str = ''
 
-    @rotated_data.each do |column|
-      count1 = column.count { |value| value == '1' }
-      count0 = column.length - count1
-
-      gamma_str += count0 > count1 ? '0' : '1'
-      epsilon_str += count0 > count1 ? '1' : '0'
+    @data.transpose.each_with_index do |_, i|
+      gamma_str += most_common_value(@data, i)
+      epsilon_str += least_common_value(@data, i)
     end
 
-    @gamma_epsilon ||= { gamma: gamma_str.to_i(2), epsilon: epsilon_str.to_i(2) }
+    @gamma_epsilon ||= { gamma: gamma_str, epsilon: epsilon_str }
+  end
+
+  def most_common_value(arr, idx)
+    column = arr.transpose[idx]
+
+    zero_count = column.count do |value|
+      value == '0'
+    end
+
+    if zero_count > (column.size - zero_count)
+      '0'
+    else
+      '1'
+    end
+  end
+
+  def least_common_value(arr, idx)
+    if most_common_value(arr, idx) == '0'
+      '1'
+    else
+      '0'
+    end
+  end
+
+  def filter_by_commonality(arr, least_common_value: false)
+    remaining = arr
+    i = 0
+
+    while remaining.length > 1
+      remaining = remaining.filter do |reading|
+        reading[i] == (least_common_value ? least_common_value(remaining, i) : most_common_value(remaining, i))
+      end
+      i += 1
+    end
+
+    remaining[0]
   end
 
   def pre_process_row(row)
