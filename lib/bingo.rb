@@ -7,12 +7,16 @@ class Bingo
     @cards = cards.map { |card| BingoCard.new(card) }
   end
 
-  def play(numbers_called)
+  def calculate_winners_and_score(numbers_called)
+    winners = []
     numbers_called.each do |number_called|
-      @cards.each do |card_to_check|
-        return card_to_check.unmarked_sum * number_called if card_to_check.mark_and_check(number_called)
+      keep_playing = @cards.filter do |card_to_check|
+        winner = card_to_check.mark_and_check(number_called)
+        winners << { card: card_to_check, score: card_to_check.unmarked_sum * number_called } if winner
+        !winner
       end
+      @cards = keep_playing
     end
-    0
+    winners
   end
 end

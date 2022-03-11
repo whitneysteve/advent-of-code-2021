@@ -20,6 +20,8 @@ if __FILE__ == $PROGRAM_NAME
     end
   end
 
-  puts Bingo.new(bingo_cards).play(numbers_called)
+  winners = Bingo.new(bingo_cards).calculate_winners_and_score(numbers_called)
+  puts winners[0][:score]
+  puts winners[-1][:score]
 
 end

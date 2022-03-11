@@ -32,11 +32,15 @@ class BingoTest < Minitest::Test
   NUMBERS_CALLED = [7, 4, 9, 5, 11, 17, 23, 2, 0, 14, 21, 24, 10, 16, 13, 6, 15, 25, 12, 22, 18, 20, 8, 19, 3, 26,
                     1].freeze
 
-  def test_find_correct_score
-    assert_equal 4512, Bingo.new([TEST_CARD_1, TEST_CARD_2, TEST_CARD_3]).play(NUMBERS_CALLED)
+  def test_find_correct_winner_order
+    winners = Bingo.new([TEST_CARD_1, TEST_CARD_2, TEST_CARD_3]).calculate_winners_and_score(NUMBERS_CALLED)
+    assert_equal 3, winners.size
+    assert_equal 4512, winners[0][:score]
+    assert_equal 2192, winners[1][:score]
+    assert_equal 1924, winners[2][:score]
   end
 
   def test_find_zero_score_if_no_winner
-    assert_equal 0, Bingo.new([TEST_CARD_1, TEST_CARD_2, TEST_CARD_3]).play([7])
+    assert_equal 0, Bingo.new([TEST_CARD_1, TEST_CARD_2, TEST_CARD_3]).calculate_winners_and_score([7]).size
   end
 end
