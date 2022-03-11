@@ -15,11 +15,13 @@ class StatusReportTest < Minitest::Test
   end
 
   def test_handles_nil_array
-    assert_raises('InvalidStatusReport') { StatusReport.new(nil).power_consumption.zero? }
+    error = assert_raises { StatusReport.new(nil).power_consumption.zero? }
+    assert_equal 'InvalidStatusReport', error.message
   end
 
   def test_handles_empty_array
-    assert_raises('InvalidStatusReport') { StatusReport.new([]).power_consumption.zero? }
+    error = assert_raises { StatusReport.new([]).power_consumption.zero? }
+    assert_equal 'InvalidStatusReport', error.message
   end
 
   def test_handles_array_with_nil
@@ -31,11 +33,13 @@ class StatusReportTest < Minitest::Test
   end
 
   def test_life_support_handles_nil_array
-    assert_raises('InvalidStatusReport') { StatusReport.new(nil).life_support.zero? }
+    error = assert_raises { StatusReport.new(nil).life_support.zero? }
+    assert_equal 'InvalidStatusReport', error.message
   end
 
   def test_life_support_handles_empty_array
-    assert_raises('InvalidStatusReport') { StatusReport.new([]).life_support.zero? }
+    error = assert_raises { StatusReport.new([]).life_support.zero? }
+    assert_equal 'InvalidStatusReport', error.message
   end
 
   def test_life_support_handles_array_with_nil
