@@ -20,20 +20,20 @@ class VentMapTest < Minitest::Test
                            Line.new(Point.new(5, 5), Point.new(8, 2))
                          ])
 
-  EXPECTED_TO_S = ".......1..
-..1....1..
-..1....1..
-.......1..
-.112111211
-..........
-..........
-..........
-..........
+  EXPECTED_TO_S = "1.1....11.
+.111...2..
+..2.1.111.
+...1.2.2..
+.112313211
+...1.2....
+..1...1...
+.1.....1..
+1.......1.
 222111....
 "
 
   def test_count_danger_points
-    assert_equal 5, TEST_MAP.count_dangerous_points(2)
+    assert_equal 12, TEST_MAP.count_dangerous_points(2)
   end
 
   def test_to_s

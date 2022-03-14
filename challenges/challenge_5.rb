@@ -10,7 +10,7 @@ def parse_point(point_str)
 end
 
 if __FILE__ == $PROGRAM_NAME
-  puts 'Running challenge 4'
+  puts 'Running challenge 5'
 
   lines = File.readlines('challenges/challenge_5_input')
   parsed_lines = lines.map do |line|
@@ -18,6 +18,9 @@ if __FILE__ == $PROGRAM_NAME
     Line.new(parse_point(start), parse_point(finish))
   end
 
-  map = VentMap.new(parsed_lines)
+  map = VentMap.new(parsed_lines, include_diagonal: false)
+  puts map.count_dangerous_points(2)
+
+  map = VentMap.new(parsed_lines, include_diagonal: true)
   puts map.count_dangerous_points(2)
 end
