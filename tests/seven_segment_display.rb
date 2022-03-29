@@ -23,9 +23,22 @@ class SevenSegmentDisplayTest < Minitest::Test
     assert_equal 8, display.translate_digit('abcdefg')
   end
 
-  def test_deciphers_digits
-    display = SevenSegmentDisplay.new(TEST_STR)
-    assert_equal [8, nil, nil, 4], display.digits
+  def test_deciphers_simple_digits
+    display = SevenSegmentDisplay.new(
+      'be cfbegad cbdgef fgaecd cgeb fdcge agebfd fecdb fabcd edb | eb begc deb dfbegac'
+    )
+    assert_equal [1, 4, 7, 8], display.digits
+  end
+
+  def test_deciphers_inferred_digits
+    display = SevenSegmentDisplay.new(
+      'acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cagedb gcdfa fbcad cdfbe'
+    )
+    assert_equal [0, 2, 3, 5], display.digits
+    display = SevenSegmentDisplay.new(
+      'acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfgeb cefabd cagedb cagedb'
+    )
+    assert_equal [6, 9, 0, 0], display.digits
   end
 
   def test_handles_invalid_input
