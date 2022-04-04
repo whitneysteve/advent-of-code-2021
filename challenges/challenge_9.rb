@@ -14,4 +14,6 @@ if __FILE__ == $PROGRAM_NAME
 
   map = HeightMap.new(input)
   puts map.low_point_risk_levels
+  low_points = map.low_points
+  puts low_points.map { |point| map.basin_size(point) }.sort.reverse.take(3).inject(:*)
 end

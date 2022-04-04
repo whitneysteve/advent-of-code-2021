@@ -10,4 +10,8 @@ class Point
     @y = y
   end
   # rubocop:enable Naming/MethodParameterName
+
+  def ==(other)
+    other.class == self.class && other.x == @x && other.y == @y
+  end
 end

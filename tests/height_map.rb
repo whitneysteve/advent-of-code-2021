@@ -21,12 +21,20 @@ class HaightMapTest < Minitest::Test
 
   def test_low_points
     map = HeightMap.new(TEST_MAP)
-    assert_equal [1, 0, 5, 5], map.low_points
+    assert_equal [1, 0, 5, 5], (map.low_points.map { |point| map.get_value(point) })
   end
 
   def test_low_point_risk_levels
     map = HeightMap.new(TEST_MAP)
     assert_equal 15, map.low_point_risk_levels
+  end
+
+  def test_basin_size
+    map = HeightMap.new(TEST_MAP)
+    assert_equal 3, map.basin_size(Point.new(1, 0))
+    assert_equal 9, map.basin_size(Point.new(9, 0))
+    assert_equal 14, map.basin_size(Point.new(2, 2))
+    assert_equal 9, map.basin_size(Point.new(6, 4))
   end
 
   def test_invalid_map
