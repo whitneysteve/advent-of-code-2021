@@ -6,10 +6,12 @@ require 'set'
 class NavigationSubsystem
   OPENERS = Set.new(['[', '(', '<', '{'])
 
-  def initialize(input)
+  def initialize(input, filter_corrupt: false)
     raise 'InvalidInput' if input.to_a.empty?
 
-    @input = input.map(&:strip).reject(&:empty?)
+    @input = input.map(&:strip).reject do |line|
+      line.strip.empty? || (filter_corrupt && corrupt?(line))
+    end
     raise 'InvalidInput' if @input.to_a.empty?
   end
 
@@ -26,6 +28,10 @@ class NavigationSubsystem
   end
 
   private
+
+  def corrupt?(line)
+    !corrupt_character(line).nil?
+  end
 
   def corrupt_character(line)
     # puts line

@@ -23,6 +23,13 @@ class NavigationSubsystemTest < Minitest::Test
     assert_equal ['}', ')', ']', ')', '>'], navigation.corrupted_characters
   end
 
+  def test_filter_corrupt
+    navigation = NavigationSubsystem.new(TEST_INPUT, filter_corrupt: true)
+    assert_equal [], navigation.corrupted_characters
+  end
+
+  def test_is_incomplete; end
+
   def test_handles_invalid_input
     invalid_inputs = [nil, [], [''], [' ']]
     invalid_inputs.each do |invalid|
