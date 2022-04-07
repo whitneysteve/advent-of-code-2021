@@ -7,7 +7,10 @@ class NavigationSubsystem
   OPENERS = Set.new(['[', '(', '<', '{'])
 
   def initialize(input)
+    raise 'InvalidInput' if input.to_a.empty?
+
     @input = input.map(&:strip).reject(&:empty?)
+    raise 'InvalidInput' if @input.to_a.empty?
   end
 
   # Returns the corrupted characters in the subsystem input.
