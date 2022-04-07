@@ -8,18 +8,10 @@ if __FILE__ == $PROGRAM_NAME
   lines = File.readlines('challenges/challenge_10_input')
 
   navigation = NavigationSubsystem.new(lines)
-  puts navigation.corrupted_characters.map { |x|
-    case x
-    when ')'
-      3
-    when ']'
-      57
-    when '}'
-      1197
-    when '>'
-      25_137
-    else
-      raise "InvalidChar: #{corrupt_character}"
-    end
-  }.sum
+  puts navigation.corrupted_characters.map { |corrupt_character| navigation.corruption_score(corrupt_character) }.sum
+
+  navigation = NavigationSubsystem.new(lines, filter_corrupt: true)
+  auto_complete_lines = navigation.auto_complete_input
+  auto_complete_scores = auto_complete_lines.map { |line| navigation.auto_complete_line_score(line) }.sort
+  puts auto_complete_scores[(auto_complete_scores.size - 1) / 2]
 end

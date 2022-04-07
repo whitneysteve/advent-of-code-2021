@@ -16,7 +16,7 @@ if __FILE__ == $PROGRAM_NAME
       bingo_cards << card_arr.dup
       card_arr = []
     else
-      card_arr << next_line.split(' ').map(&:to_i)
+      card_arr << next_line.split.map(&:to_i)
     end
   end
 

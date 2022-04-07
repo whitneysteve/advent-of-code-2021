@@ -21,7 +21,7 @@ class SevenSegmentDisplay
     validate_input(inputs)
 
     patterns, digit_signals = inputs.split('|').map(&:strip)
-    patterns = patterns.split(' ').map { |pattern| memoize(pattern.strip) }
+    patterns = patterns.split.map { |pattern| memoize(pattern.strip) }
     validate_patterns(patterns)
 
     @digit_signals = digit_signals.split.map(&:strip)
@@ -60,7 +60,7 @@ class SevenSegmentDisplay
       digits = []
       @digit_signals.each do |pattern|
         translated = translate_digit(pattern)
-        digits << translated || -1
+        (digits << translated) || -1
       end
       digits
     end
@@ -92,9 +92,9 @@ class SevenSegmentDisplay
     find_digits_with_length(patterns, length).each do |pattern|
       next if pattern == cont
 
-      if invert && pattern.chars.all? { |char| exclude.include? char }
-        incl = pattern
-      elsif exclude.chars.all? { |char| pattern.include? char }
+      if (invert && pattern.chars.all? { |char| exclude.include? char }) || exclude.chars.all? do |char|
+           pattern.include? char
+         end
         incl = pattern
       else
         excl = pattern

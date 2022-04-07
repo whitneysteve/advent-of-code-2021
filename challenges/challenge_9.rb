@@ -9,7 +9,7 @@ if __FILE__ == $PROGRAM_NAME
 
   input = []
   lines.each do |line|
-    input << line.strip.split('').map(&:to_i)
+    input << line.strip.chars.map(&:to_i)
   end
 
   map = HeightMap.new(input)

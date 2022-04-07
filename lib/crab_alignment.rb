@@ -2,7 +2,7 @@
 
 # Class to help align the crabs on a goal.
 class CrabAlignment
-  FIXNUM_MAX = (2**(0.size * 8 - 2) - 1)
+  FIXNUM_MAX = ((2**((0.size * 8) - 2)) - 1)
 
   def initialize(positions)
     raise 'InvalidCrabs' if positions.to_a.empty?
