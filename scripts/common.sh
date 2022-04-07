@@ -24,6 +24,7 @@ function run() {
   ruby challenges/challenge_7.rb
   ruby challenges/challenge_8.rb
   ruby challenges/challenge_9.rb
+  ruby challenges/challenge_10.rb
 }
 
 function test() {
