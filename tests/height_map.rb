@@ -21,7 +21,7 @@ class HaightMapTest < Minitest::Test
 
   def test_low_points
     map = HeightMap.new(TEST_MAP)
-    assert_equal [1, 0, 5, 5], (map.low_points.map { |point| map.get_value(point) })
+    assert_equal [1, 0, 5, 5], (map.low_points.map { |point| map.grid.get_value(point) })
   end
 
   def test_low_point_risk_levels
@@ -41,13 +41,13 @@ class HaightMapTest < Minitest::Test
     invalid = [nil, []]
     invalid.each do |_invalid_map|
       error = assert_raises { HeightMap.new(invalid) }
-      assert_equal 'InvalidMap', error.message
+      assert_equal 'InvalidGrid', error.message
     end
   end
 
   def test_rectangular_map
     error = assert_raises { HeightMap.new([[1, 2], [1, 2, 3]]) }
-    assert_equal 'NonRectangularMap', error.message
+    assert_equal 'NonRectangularGrid', error.message
   end
 
   def test_invalid_value
@@ -55,7 +55,7 @@ class HaightMapTest < Minitest::Test
     invalid_values.each do |invalid|
       MUTABLE_TEST_MAP[1][1] = invalid
       error = assert_raises { HeightMap.new(MUTABLE_TEST_MAP) }
-      assert_equal 'InvalidMapValue', error.message
+      assert_equal 'InvalidGridValue', error.message
     end
   end
 end
