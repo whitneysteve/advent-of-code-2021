@@ -20,6 +20,10 @@ class Grid
     @grid.each_with_index(&block)
   end
 
+  def size
+    @height * @width
+  end
+
   def get_value(point)
     raise 'InvalidGridPosition' if !point.is_a?(Point)
     return nil if point.y >= @height || point.x >= @width

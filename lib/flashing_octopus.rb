@@ -5,11 +5,13 @@ require_relative '../lib/point'
 
 # Simulation to model the flashing of octopodes.
 class FlashingOctopus
-  attr_reader :flash_count
+  attr_reader :flash_count, :synchronised_flashes
 
   def initialize(grid)
     @grid = Grid.new(grid)
     @flash_count = 0
+    @cycle_count = 0
+    @synchronised_flashes = []
 
     @points = []
     @grid.height.times.each do |y|
@@ -22,6 +24,7 @@ class FlashingOctopus
   def progress(num_cycles)
     num_cycles.times.each do |_|
       progress_internal
+      @cycle_count += 1
     end
   end
 
@@ -30,6 +33,7 @@ class FlashingOctopus
   def progress_internal
     to_flash = increment_energy
     flashed = flash(to_flash)
+    @synchronised_flashes << (@cycle_count + 1) if flashed.size == @grid.size
     reset_flashed(flashed)
   end
 

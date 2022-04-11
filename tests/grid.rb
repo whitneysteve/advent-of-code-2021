@@ -21,6 +21,10 @@ class GridTest < Minitest::Test
     [9, 8, 9, 9, 9, 6, 5, 6, 7, 8]
   ].freeze
 
+  def test_size
+    assert_equal 50, Grid.new(TEST_GRID).size
+  end
+
   def test_get_value
     grid = Grid.new(TEST_GRID)
     assert_equal 2, grid.get_value(Point.new(0, 0))

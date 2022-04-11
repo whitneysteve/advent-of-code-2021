@@ -10,4 +10,7 @@ if __FILE__ == $PROGRAM_NAME
   octopodes = FlashingOctopus.new(lines.map { |line| line.strip.chars.map(&:to_i) })
   octopodes.progress(100)
   puts octopodes.flash_count
+
+  octopodes.progress(1) while octopodes.synchronised_flashes.empty?
+  puts octopodes.synchronised_flashes.first
 end
