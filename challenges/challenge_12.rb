@@ -9,4 +9,6 @@ if __FILE__ == $PROGRAM_NAME
 
   graph = CaveGraph.new(lines.map(&:strip))
   puts graph.paths.size
+  graph = CaveGraph.new(lines.map(&:strip), visit_twice: true)
+  puts graph.paths.size
 end

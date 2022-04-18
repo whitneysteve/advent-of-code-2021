@@ -54,9 +54,19 @@ class CaveGraphTest < Minitest::Test
     assert_equal 10, graph.paths.size
   end
 
+  def test_path_detection_visit_twice
+    graph = CaveGraph.new(TEST_EDGES, visit_twice: true)
+    assert_equal 36, graph.paths.size
+  end
+
   def test_larger_path_detection
     graph = CaveGraph.new(TEST_LARGER_EDGES)
     assert_equal 19, graph.paths.size
+  end
+
+  def test_larger_path_detection_visit_twice
+    graph = CaveGraph.new(TEST_LARGER_EDGES, visit_twice: true)
+    assert_equal 103, graph.paths.size
   end
 
   def test_largest_path_detection
@@ -64,9 +74,24 @@ class CaveGraphTest < Minitest::Test
     assert_equal 226, graph.paths.size
   end
 
-  # nil, empty
-  def test_invalid_input; end
+  def test_largest_path_detection_visit_twice
+    graph = CaveGraph.new(TEST_LARGEST_EDGES, visit_twice: true)
+    assert_equal 3509, graph.paths.size
+  end
 
-  # nil, '', ' ', '-a', 'a-'
-  def test_invalid_edge; end
+  def test_invalid_input
+    invalid_input = [nil, []]
+    invalid_input.each do |invalid|
+      error = assert_raises { CaveGraph.new(invalid) }
+      assert_equal 'InvalidGraph', error.message
+    end
+  end
+
+  def test_invalid_edge
+    invalid_edges = [nil, '', ' ', '-a', 'a-']
+    invalid_edges.each do |invalid|
+      error = assert_raises { CaveGraph.new([invalid]).paths }
+      assert_equal 'InvalidEdge', error.message
+    end
+  end
 end
